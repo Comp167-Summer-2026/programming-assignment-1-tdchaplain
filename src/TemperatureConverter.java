@@ -27,7 +27,6 @@ public class TemperatureConverter {
             if (input.equalsIgnoreCase("stop")) {
                 running = false;
             } else {
-                // Validate numeric input without try/catch
                 validNumber = true;
                 int startIndex = 0;
 
@@ -58,19 +57,22 @@ public class TemperatureConverter {
                     System.out.println("Error: Invalid temperature input. Please enter a numeric value.");
                 } else {
                     temp = Double.parseDouble(input);
+                    validUnit = false;
 
-                    System.out.print("Enter unit (C or F): ");
-                    unit = scnr.next();
+                    while (!validUnit) {
+                        System.out.print("Enter unit (C or F): ");
+                        unit = scnr.next();
 
-                    if (!unit.equalsIgnoreCase("C") && !unit.equalsIgnoreCase("F")) {
-                        System.out.println("Error: Unrecognized unit '" + unit + "'. Please enter C or F.");
-                    } else {
-                        converted = convertTemperature(temp, unit);
-
-                        if (unit.equalsIgnoreCase("C")) {
-                            System.out.printf("%.2f°C is equal to %.2f°F%n", temp, converted);
+                        if (!unit.equalsIgnoreCase("C") && !unit.equalsIgnoreCase("F")) {
+                            System.out.println("Error: Unrecognized unit '" + unit + "'. Please enter C or F.");
                         } else {
-                            System.out.printf("%.2f°F is equal to %.2f°C%n", temp, converted);
+                            validUnit = true;
+                            converted = convertTemperature(temp, unit);
+                            if (unit.equalsIgnoreCase("C")) {
+                                System.out.printf("%.2f\u00b0C is equal to %.2f\u00b0F%n", temp, converted);
+                            } else {
+                                System.out.printf("%.2f\u00b0F is equal to %.2f\u00b0C%n", temp, converted);
+                            }
                         }
                     }
                 }
